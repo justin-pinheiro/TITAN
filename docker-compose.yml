@@ -9,12 +9,19 @@ services:
       - OLLAMA_HOST=0.0.0.0
     volumes:
       - ollama_data:/root/.ollama
-      - ./entrypoint.sh:/entrypoint.sh
     container_name: ollama
     pull_policy: always
     tty: true
     restart: always
-    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        /bin/ollama serve & 
+        sleep 5 && 
+        echo '🔴 Retrieve LLAMA3.1:8b model...' && 
+        ollama pull llama3.1:8b && 
+        echo '🟢 Done!' && 
+        wait
 
   app:
     build: .
@@ -24,6 +31,7 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
     volumes:
       - .:/app
+    container_name: titan-app
     ports:
       - "8501:8501"
     command: ["streamlit", "run", "src/app.py"]

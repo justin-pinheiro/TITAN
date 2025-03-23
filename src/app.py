@@ -12,9 +12,6 @@ if user_input:
     agent = Agent(
         name="Web Agent",
         model=Ollama(id="llama3.1:8b", host=ollama_host),
-        tools=[DuckDuckGo()],
-        instructions=["Always include sources"],
-        show_tool_calls=True,
         markdown=True,
     )
     response = agent.run(user_input)
