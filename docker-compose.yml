@@ -18,8 +18,8 @@ services:
       - |
         /bin/ollama serve & 
         sleep 5 && 
-        echo '🔴 Retrieve LLAMA3.1:8b model...' && 
-        ollama pull llama3.1:8b && 
+        echo '🔴 Retrieving model...' && 
+        ollama pull llama3.2:3b && 
         echo '🟢 Done!' && 
         wait
 
