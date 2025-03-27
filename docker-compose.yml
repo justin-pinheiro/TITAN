@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   ollama:
     image: ollama/ollama:latest
@@ -18,8 +16,8 @@ services:
       - |
         /bin/ollama serve & 
         sleep 5 && 
-        echo '🔴 Retrieving model...' && 
-        ollama pull llama3.2:3b && 
+        echo '🔴 Retrieving model...' &&
+        ollama pull qwen2.5:14b && 
         echo '🟢 Done!' && 
         wait
 
