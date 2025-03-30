@@ -8,12 +8,15 @@ st.title("Ollama Chat with Streamlit")
 user_input = st.text_input("Say something to Ollama:")
 
 if user_input:
+    
     ollama_host = os.getenv("OLLAMA_HOST", "http://ollama:11434")
+    
     agent = Agent(
         name="Web Agent",
         model=Ollama(id="llama3.1:8b", host=ollama_host),
         markdown=True,
     )
+    
     response = agent.run(user_input)
     
     st.write("Ollama's response:")
