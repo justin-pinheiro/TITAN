@@ -10,14 +10,18 @@ from tzlocal import get_localzone_name
 load_dotenv()
 
 google_api_credentials_path = os.getenv("GOOGLE_API_CREDENTIALS_PATH")
+google_token_path = os.getenv("GOOGLE_API_JSON_PATH")
 ollama_host = os.getenv("OLLAMA_HOST", "http://ollama:11434")
-
-print(google_api_credentials_path)
 
 def get_agent()->Agent:
     return Agent(
         model=Ollama(id="qwen2.5:14b", host=ollama_host),
-        tools=[GoogleCalendarTools(credentials_path=google_api_credentials_path)],
+        tools=[
+            GoogleCalendarTools(
+                credentials_path=google_api_credentials_path,
+                token_path=google_token_path
+            )
+        ],
         description=
             f"""
             You are a scheduling assistant in charge of helping users with calendar related tasks. 
