@@ -1,23 +1,19 @@
-import os
 import streamlit as st
-from phi.agent import Agent
-from phi.model.ollama import Ollama
-from phi.tools.duckduckgo import DuckDuckGo
+from agents import google_calendar
 
-st.title("Ollama Chat with Streamlit")
-user_input = st.text_input("Say something to Ollama:")
+st.title("TITAN")
+
+# Sidebar to select an agent
+agent_list = {
+    "Google Calendar": google_calendar.get_agent,
+}
+
+selected_agent_name = st.sidebar.selectbox("Select an agent:", list(agent_list.keys()))
+
+user_input = st.text_input("Enter a request:")
 
 if user_input:
-    
-    ollama_host = os.getenv("OLLAMA_HOST", "http://ollama:11434")
-    
-    agent = Agent(
-        name="Web Agent",
-        model=Ollama(id="llama3.1:8b", host=ollama_host),
-        markdown=True,
-    )
-    
+    agent = agent_list[selected_agent_name]()
     response = agent.run(user_input)
     
-    st.write("Ollama's response:")
     st.write(response.content)

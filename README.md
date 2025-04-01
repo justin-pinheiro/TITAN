@@ -27,8 +27,7 @@ cd TITAN
 This will build then start both the **Ollama** model and the **Streamlit** app.
 
 ```bash
-docker compose build
-docker compose up
+docker-compose up --build
 ```
 
 These command will:
