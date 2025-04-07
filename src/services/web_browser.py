@@ -11,24 +11,26 @@ class WebBrowser :
     def __init__(self):
         
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        
+        chrome_options.binary_location = "/usr/bin/google-chrome"
+        
+        chrome_options.add_argument("--headless=new")
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        chrome_options.add_argument("--no-sandbox")
-        
+        chrome_options.add_argument("--remote-debugging-port=9222")
+
         # Block images and stylesheets for faster loading
         chrome_prefs = {
             "profile.default_content_setting_values": {
                 "images": 2,
                 "javascript": 1,
                 "stylesheet": 2,
-            },
-            "profile.managed_default_content_settings.images": 2
+            }
         }
-        chrome_options.experimental_options["prefs"] = chrome_prefs
+        
+        chrome_options.add_experimental_option("prefs", chrome_prefs)
 
-        service = Service(ChromeDriverManager().install(), service_args=['--silent'])
+        service = Service(ChromeDriverManager().install())
 
         self.driver = webdriver.Chrome(service=service, options=chrome_options)
         
